@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -19,10 +20,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class BoardActivity extends AppCompatActivity implements View.OnClickListener {
-    int rows, cols;
+    int rows, cols, numOfIslands;
     Button random, solve, clean;
     LinearLayout llBoard;
     LinearLayout[][] board;
@@ -55,6 +57,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         cols = incomingIntent.getIntArrayExtra("dimension")[1];
         board = new LinearLayout[rows][cols];
         llBoard = (LinearLayout)findViewById(R.id.llBoard);
+        numOfIslands = 0;
         LinearLayout    tmpRow;
         LinearLayout    tmpCol;
         LinearLayout.LayoutParams innerParams = new LinearLayout.LayoutParams(
@@ -106,23 +109,71 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void cleanBoard() {
-        LinearLayout tmp;
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                tmp = board[i][j];
-                tmp.setBackgroundColor(Color.WHITE);
-                tmp.setTag("0");
+        if(!isClean) {
+            LinearLayout tmp;
+            for (LinearLayout[] row : board) {
+                for (LinearLayout cell : row) {
+                    cell.setBackgroundColor(Color.WHITE);
+                    cell.setTag("0");
+                }
             }
+            isClean = true;
+            numOfIslands = 0;
         }
-        isClean = true;
         Toast.makeText(this, "Map is clean!", Toast.LENGTH_SHORT).show();
     }
 
 
 
     private void solveBoard() {
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(board[i][j].getTag().toString().equals("1")){
+                    tagIsland(i, j);
+                }
+            }
+        }
+        paintIslands();
         Toast.makeText(this, "Map is solved!", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void paintIslands() {
+        LinearLayout tmp;
+        for(LinearLayout[] row:board){
+            for(LinearLayout cell:row){
+                /*cell.setBackgroundColor();
+
+                to be implemented!
+                 */
+            }
+        }
+    }
+
+    private void tagIsland(int i, int j) {
+        numOfIslands++;
+        Integer[] indexes;
+        LinearLayout tmpLO;
+        LinkedList<Integer[]> stack = new LinkedList<Integer[]>();
+        stack.add(new Integer[]{i, j});
+        while(!stack.isEmpty()){
+            indexes = stack.remove();
+            i = indexes[0];
+            j = indexes[1];
+            board[i][j].setTag("" + numOfIslands);
+            if(i > 0 && board[i-1][j].getTag().toString().equals("1")){
+                stack.add(new Integer[]{i-1, j});
+            }
+            if(i < rows - 1 && board[i+1][j].getTag().toString().equals("1")){
+                stack.add(new Integer[]{i+1, j});
+            }
+            if(j > 0 && board[i][j-1].getTag().toString().equals("1")){
+                stack.add(new Integer[]{i, j-1});
+            }
+            if(j < cols - 1 && board[i][j+1].getTag().toString().equals("1")){
+                stack.add(new Integer[]{i, j+1});
+            }
+        }
     }
 
     private void randomBoard(double frequency) {
@@ -132,13 +183,12 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         }
         Double random;
         LinearLayout tmp;
-        for(int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
+        for(LinearLayout[] row:board){
+            for(LinearLayout cell:row){
                 random = rand.nextDouble();
                 if(random < frequency){
-                    tmp = board[i][j];
-                    tmp.setBackgroundColor(Color.BLACK);
-                    tmp.setTag("1");
+                    cell.setBackgroundColor(Color.BLACK);
+                    cell.setTag("1");
                     isClean = false;
                 }
             }
