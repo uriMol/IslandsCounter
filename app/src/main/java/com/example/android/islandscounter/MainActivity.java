@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etCols;
     Button buttonSetBoard;
     int cols, rows;
+    int MAX_DIM = 150;
 
 
 
@@ -40,14 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             rows = Integer.parseInt(etRows.getText().toString());
             cols = Integer.parseInt(etCols.getText().toString());
-            if(0 < rows && rows <= 1000 && 0 < cols && cols <= 1000){
+            if(0 < rows && rows <= MAX_DIM && 0 < cols && cols <= MAX_DIM){
+                etRows.getText().clear();
+                etCols.getText().clear();
                 Intent intent = new Intent(MainActivity.this, BoardActivity.class);
                 intent.putExtra("dimension", new int[]{rows, cols});
                 startActivity(intent);
             } else {
-                etRows.getText().clear();
-                etCols.getText().clear();
-                Toast.makeText(MainActivity.this, "Board's dimension must be at least 1x1 and up to 1000x1000", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Board's dimension must be at least 1x1" +
+                        " and up to " + MAX_DIM + "x"+ MAX_DIM, Toast.LENGTH_LONG).show();
             }
         }
     }
