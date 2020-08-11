@@ -1,0 +1,2 @@
+rootProject.name='Islands Counter'
+include ':app'

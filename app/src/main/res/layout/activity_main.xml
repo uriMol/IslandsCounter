@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:gravity="center_horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Islands Counter!"
+            android:textSize="26sp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions words words inst words wordsInstructions words words inst words wordsInstructions words words inst words words!"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <EditText
+            android:id="@+id/etRows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Rows"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/etCols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Columns"
+            android:inputType="number"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSetBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SET BOARD"/>
+
+
+
+</LinearLayout>
