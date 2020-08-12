@@ -6,12 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:background="@drawable/main_background">
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="10dp">
 
 
         <TextView
@@ -24,7 +28,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Islands Counter is an app that given a dimension - creates a map in that dimension. It then lets you choose if you want to fill it manually or let the random algorithm do it for you. when the map is filled with islands, the app will efficiently paint the islands in different colors."/>
+            android:text="Islands Counter is an app that given a dimension - creates a map in that dimension. It then lets you choose if you want to fill it manually or let the random algorithm do it for you. when the map is filled with islands, the app will efficiently paint the islands in different colors."
+            android:padding="25dp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -39,14 +44,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Rows"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:layout_margin="20dp"/>
 
         <EditText
             android:id="@+id/etCols"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Columns"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:layout_margin="20dp"/>
 
 
     </LinearLayout>

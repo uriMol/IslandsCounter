@@ -63,11 +63,11 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         LinearLayout    tmpRow;
         LinearLayout    tmpCol;
         LinearLayout.LayoutParams innerParams = new LinearLayout.LayoutParams(
-                0, LinearLayout.LayoutParams.MATCH_PARENT);
+                25, LinearLayout.LayoutParams.MATCH_PARENT);
         innerParams.weight = 1f;
         innerParams.setMargins(1,1,1,1);
         LinearLayout.LayoutParams outerParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 0);
+                LinearLayout.LayoutParams.MATCH_PARENT, 25);
         outerParams.weight = 1f;
         for(int i = 0; i < rows; i++){
             tmpRow = new LinearLayout(this);
@@ -154,7 +154,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
             j = indexes[1];
             board[i][j].setTag("" + (1 + numOfIslands));
             int randColor = 31 * numOfIslands;
-            board[i][j].setBackgroundColor(Color.argb(255, randColor%255, (2*randColor)%255, (3*randColor)%255));
+            board[i][j].setBackgroundColor(Color.argb(255, (randColor%235) + 20 , ((2*randColor)%235) + 20, ((3*randColor)%235)) + 20);
             if(i > 0 && board[i-1][j].getTag().toString().equals("1")){
                 stack.add(new Integer[]{i-1, j});
             }
