@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etCols;
     Button buttonSetBoard;
     int cols, rows;
-    int MAX_DIM = 150;
+    int MAX_DIM = 1000;
 
 
 
@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setUIviews();
+        setUIViews();
         buttonSetBoard.setOnClickListener(this);
     }
 
-    private void setUIviews() {
+    private void setUIViews() {
         etRows = (EditText)findViewById(R.id.etRows);
         etCols = (EditText)findViewById(R.id.etCols);
         buttonSetBoard = (Button) findViewById(R.id.buttonSetBoard);
