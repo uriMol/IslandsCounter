@@ -29,7 +29,9 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
     LinearLayout llBoard;
     LinearLayout[][] board;
     Random rand = new Random();
+
     boolean isClean = true;
+    boolean isSolved = false;
 
     double FREQUENCY = 0.5;
 
@@ -118,6 +120,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
             isClean = true;
+            isSolved = false;
             numOfIslands = 0;
         }
         Toast.makeText(this, "Map is clean!", Toast.LENGTH_SHORT).show();
@@ -126,41 +129,32 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void solveBoard() {
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                if(board[i][j].getTag().toString().equals("1")){
-                    tagIsland(i, j);
+        if(!isSolved){
+            for(int i = 0; i < rows; i++){
+                for(int j = 0; j < cols; j++){
+                    if(board[i][j].getTag().toString().equals("1")){
+                        tagNPaintIsland(i, j);
+                    }
                 }
             }
+            isSolved = true;
         }
-        paintIslands();
         Toast.makeText(this, "Map is solved!", Toast.LENGTH_SHORT).show();
 
     }
 
-    private void paintIslands() {
-        LinearLayout tmp;
-        for(LinearLayout[] row:board){
-            for(LinearLayout cell:row){
-                /*cell.setBackgroundColor();
-
-                to be implemented!
-                 */
-            }
-        }
-    }
-
-    private void tagIsland(int i, int j) {
+    private void tagNPaintIsland(int i, int j) {
         numOfIslands++;
         Integer[] indexes;
-        LinearLayout tmpLO;
         LinkedList<Integer[]> stack = new LinkedList<Integer[]>();
         stack.add(new Integer[]{i, j});
         while(!stack.isEmpty()){
             indexes = stack.remove();
             i = indexes[0];
             j = indexes[1];
-            board[i][j].setTag("" + numOfIslands);
+            board[i][j].setTag("" + (1 + numOfIslands));
+            int randColor = 31 * numOfIslands;
+            board[i][j].setBackgroundColor(Color.argb(255, randColor%255, (2*randColor)%255, (3*randColor)%255));
             if(i > 0 && board[i-1][j].getTag().toString().equals("1")){
                 stack.add(new Integer[]{i-1, j});
             }
@@ -177,10 +171,6 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void randomBoard(double frequency) {
-        if(!isClean){
-            Toast.makeText(this, "Please clean the map in order to randomize it", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Double random;
         LinearLayout tmp;
         for(LinearLayout[] row:board){
@@ -190,9 +180,13 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
                     cell.setBackgroundColor(Color.BLACK);
                     cell.setTag("1");
                     isClean = false;
+                } else{
+                    cell.setBackgroundColor(Color.WHITE);
+                    cell.setTag("0");
                 }
             }
         }
+        isSolved = false;
         Toast.makeText(this, "Map is randomized!", Toast.LENGTH_SHORT).show();
     }
 }
