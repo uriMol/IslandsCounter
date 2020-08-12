@@ -14,7 +14,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etCols;
     Button buttonSetBoard;
     int cols, rows;
-    int MAX_DIM = 1000;
+
+    final int MAX_DIM = 1000;
 
 
 
