@@ -5,14 +5,19 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
+/*
+    The Cell class -
+    Stores the cell's fields and functions
+ */
+
+
 class Cell extends View implements View.OnClickListener {
-    int row, col, islandID;
-    cellStatus stat = cellStatus.WHITE;
-    final LinearLayout.LayoutParams CELL_PARAMS = new LinearLayout.LayoutParams(
-            25, LinearLayout.LayoutParams.MATCH_PARENT);
-    Board board;
+    private int row, col, islandID;
+    private cellStatus stat = cellStatus.WHITE;
+    private Board board;
 
 
+    //Cell constructor - initializes fields and set parameters
 
     public Cell(Context context, int row, int col, Board board) {
         super(context);
@@ -25,6 +30,8 @@ class Cell extends View implements View.OnClickListener {
     }
 
     private void setParams() {
+        LinearLayout.LayoutParams CELL_PARAMS = new LinearLayout.LayoutParams(
+                25, LinearLayout.LayoutParams.MATCH_PARENT);
         CELL_PARAMS.weight = 1f;
         CELL_PARAMS.setMargins(1,1,1,1);
         this.setLayoutParams(CELL_PARAMS);
@@ -32,6 +39,10 @@ class Cell extends View implements View.OnClickListener {
         this.setId(row*board.getCols() + col);
     }
 
+    /*
+        Every cell is an onClickListener (Cell implements onClickListener)
+        on click paints the cell in black
+     */
     @Override
     public void onClick(View v) {
         if(stat == cellStatus.WHITE){
@@ -58,14 +69,22 @@ class Cell extends View implements View.OnClickListener {
         return col;
     }
 
+    /*
+    Called when cell is tagged as an Island
+    member - the ID is the islands number
+     */
     public void setIslandID(int ID) {
         islandID = ID;
         stat = cellStatus.COLORED;
     }
 
+    /*
+        Paints the cell in its island's color - every
+        island has its own random color
+     */
     public void paint() {
         int randColor = 31 * islandID;
-        this.setBackgroundColor(Color.argb(255, (randColor%235) + 20 , ((2*randColor)%235) + 20, ((3*randColor)%235)) + 20);
+        this.setBackgroundColor(Color.argb(255, randColor%235 , (2*randColor)%235 , (3*randColor)%235));
 
     }
 

@@ -7,38 +7,44 @@ import android.widget.Toast;
 import java.util.LinkedList;
 import java.util.Random;
 
+/*
+    The Board class -
+    Stores the board's fields and functions
+ */
+
 class Board {
-    Cell[][] board;
-    int rows,cols;
-    int numOfIslands = 0;
+    private Cell[][] board;
+    private int rows,cols;
+    private int numOfIslands = 0;
     private boolean clean = true;
     private boolean solved = false;
     LinearLayout parent;
     BoardActivity activity;
 
+    //The frequency of black cells in the board
     final double FREQUENCY = 0.5;
 
-    final LinearLayout.LayoutParams ROW_PARAMS = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, 25);
 
 
-
+    /*
+        Board constructor - initializes fields and builds rows
+        using the createRow(rowNumber) for each row
+     */
     public Board(int rows, int cols, LinearLayout parent, BoardActivity activity){
         this.rows = rows;
         this.cols = cols;
         this.board = new Cell[rows][cols];
         this.parent = parent;
         this.activity = activity;
-        createRows();
-    }
-
-    private void createRows() {
-        ROW_PARAMS.weight = 1f;
         for(int i = 0; i < rows; i++){
             parent.addView(createRow(i));
         }
     }
 
+    /*
+        Creates a LinearLayout for each row, adds
+        its cells and sets the parameters
+     */
     private LinearLayout createRow(int i) {
         LinearLayout LO = new LinearLayout(activity);
         Cell tmpCell;
@@ -51,7 +57,11 @@ class Board {
         return LO;
     }
 
+    //Sets the parameters for each row layout
     private void setParams(LinearLayout LO){
+        LinearLayout.LayoutParams ROW_PARAMS = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 25);
+        ROW_PARAMS.weight = 1f;
         LO.setLayoutParams(ROW_PARAMS);
         LO.setOrientation(LinearLayout.HORIZONTAL);
         LO.setBackgroundColor(Color.BLACK);
@@ -67,6 +77,10 @@ class Board {
     }
 
 
+    /*
+        Cleans the board - if board isn't clean - iterates
+        on it's cells and clean them
+     */
     public void cleanBoard(){
         if(!clean){
             for(Cell[] row:board){
@@ -81,6 +95,11 @@ class Board {
         Toast.makeText(activity, "Map is clean!", Toast.LENGTH_SHORT).show();
     }
 
+
+    /*
+        Solves the board - if board isn't solved - iterates
+        on it's cells and if necessary activates paintIsland()
+     */
     public void solve() {
         if(!solved){
             for(Cell[] row:board){
@@ -95,6 +114,12 @@ class Board {
         Toast.makeText(activity, "Map is solved!", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+        On each call - the function paints the entire island.
+        PaintIsland uses a stack to store all relevant
+        neighbors cell that are part of the island and should
+        be painted. Very similar to BFS algorithm
+     */
     private void PaintIsland(Cell cell) {
         numOfIslands++;
         LinkedList<Integer[]> stack = new LinkedList<Integer[]>();

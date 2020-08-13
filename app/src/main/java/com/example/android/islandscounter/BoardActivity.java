@@ -10,11 +10,10 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BoardActivity extends AppCompatActivity implements View.OnClickListener {
-    int rows, cols;
+    private int rows, cols;
     Button random, solve, clean;
     LinearLayout llBoard;
     Board board;
-
 
 
 
@@ -26,6 +25,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         createBoard(getIntent());
     }
 
+    //Setting UI variables to their views
     private void setUIViews() {
         random = findViewById(R.id.btRandom);
         random.setOnClickListener(this);
@@ -35,6 +35,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         clean.setOnClickListener(this);
     }
 
+    //Called by onCreate - creates a new board with the input dimension
     private void createBoard(Intent incomingIntent) {
         rows = incomingIntent.getIntArrayExtra("dimension")[0];
         cols = incomingIntent.getIntArrayExtra("dimension")[1];
@@ -43,6 +44,11 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
+    /*
+        This class implements onClickListener, used by the
+        three top buttons. On each click, the onClick identifies
+        the clicked button by it's tag and actives the relevant function
+     */
     @Override
     public void onClick(View v) {
         String tag = v.getTag().toString();
@@ -59,11 +65,14 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+    /*
+    Taking care of the onSaveInstanceState -
+    We're saving a boolean "isWhite" variable for each cell,
+    and saving the "solved" field of the board
+     */
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
         for(Cell[] row:board.getBoard()){
             for(Cell cell:row){
                 savedInstanceState.putBoolean(Integer.toString(cell.getId()), cell.getStat()!=cellStatus.WHITE);
@@ -72,10 +81,13 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         savedInstanceState.putBoolean("solved", board.isSolved());
     }
 
+    /*
+        On restore - we make sure that every "not white" cell
+        is painted in black, and if the "solved" field was true
+        prior to onSaveInstanceState - we solve the board
+     */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
         for(Cell[] row:board.getBoard()){
             for(Cell cell:row){
                 if(savedInstanceState.getBoolean(Integer.toString(cell.getId()))){

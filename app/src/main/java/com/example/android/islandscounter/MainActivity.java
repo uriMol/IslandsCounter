@@ -12,10 +12,11 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etRows;
     EditText etCols;
-    Button buttonSetBoard;
+    Button btSetBoard;
     int cols, rows;
 
-    final int MAX_DIM = 1000;
+    //MAX_DIM defines max dimension for the board, should be 1000
+    final int MAX_DIM = 200;
 
 
 
@@ -24,15 +25,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUIViews();
-        buttonSetBoard.setOnClickListener(this);
+        btSetBoard.setOnClickListener(this);
     }
 
+    //Setting the UI variables to their views
     private void setUIViews() {
         etRows = (EditText)findViewById(R.id.etRows);
         etCols = (EditText)findViewById(R.id.etCols);
-        buttonSetBoard = (Button) findViewById(R.id.buttonSetBoard);
+        btSetBoard = (Button) findViewById(R.id.buttonSetBoard);
     }
 
+
+    /*
+        Clicking on the SetBoard button first checks if the
+        cols and rows that were filled are in the required dimension,
+        then create an intent for the BoardActivity
+     */
     @Override
     public void onClick(View v) {
         String strRows = etRows.getText().toString();
