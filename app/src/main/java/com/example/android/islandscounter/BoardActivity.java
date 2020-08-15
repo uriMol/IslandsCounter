@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BoardActivity extends AppCompatActivity implements View.OnClickListener {
     private int rows, cols;
+    TextView tvNumOfIslands;
     Button random, solve, clean;
     LinearLayout llBoard;
     Board board;
@@ -27,6 +29,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
 
     //Setting UI variables to their views
     private void setUIViews() {
+        tvNumOfIslands = findViewById(R.id.tvNumOfIslands);
         random = findViewById(R.id.btRandom);
         random.setOnClickListener(this);
         solve = findViewById(R.id.btSolve);
@@ -63,6 +66,17 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
                 board.cleanBoard();
                 break;
         }
+        refreshNumOfIslands();
+    }
+
+    private void refreshNumOfIslands() {
+        String num;
+        if ((board.isClean() == true) || board.getNumOfIslands() == 0) {
+            num = "-";
+        } else {
+            num = "" + board.getNumOfIslands();
+        }
+        tvNumOfIslands.setText("No. of islands: " + num);
     }
 
 
@@ -75,7 +89,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         super.onSaveInstanceState(savedInstanceState);
         for(Cell[] row:board.getBoard()){
             for(Cell cell:row){
-                savedInstanceState.putBoolean(Integer.toString(cell.getId()), cell.getStat()!=cellStatus.WHITE);
+                savedInstanceState.putBoolean(Integer.toString(cell.getId()), cell.getStat()!=CellStatus.WHITE);
             }
         }
         savedInstanceState.putBoolean("solved", board.isSolved());
@@ -91,7 +105,7 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         for(Cell[] row:board.getBoard()){
             for(Cell cell:row){
                 if(savedInstanceState.getBoolean(Integer.toString(cell.getId()))){
-                    cell.setStat(cellStatus.BLACK);
+                    cell.setStat(CellStatus.BLACK);
                     cell.setBackgroundColor(Color.BLACK);
                     board.unClean();
                 }

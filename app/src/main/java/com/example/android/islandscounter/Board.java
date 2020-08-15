@@ -18,12 +18,17 @@ class Board {
     private int numOfIslands = 0;
     private boolean clean = true;
     private boolean solved = false;
+
     LinearLayout parent;
     BoardActivity activity;
 
     //The frequency of black cells in the board
-    final double FREQUENCY = 0.5;
-
+    final double FREQUENCY = 0.3;
+    /*
+        includeDiag determines if we want the
+        diagonal cells to count as the same island
+     */
+    final boolean INCLUDE_DIAG = true;
 
 
     /*
@@ -104,7 +109,7 @@ class Board {
         if(!solved){
             for(Cell[] row:board){
                 for(Cell cell:row){
-                    if(cell.getStat() == cellStatus.BLACK){
+                    if(cell.getStat() == CellStatus.BLACK){
                         PaintIsland(cell);
                     }
                 }
@@ -133,23 +138,39 @@ class Board {
             j = indexes[1];
             board[i][j].setIslandID(numOfIslands);
             board[i][j].paint();
-            addNeighborsToStack(indexes, stack);
-    }
+            if ((INCLUDE_DIAG)) {
+                addNeighborsToStackDiag(indexes, stack);
+            } else {
+                addNeighborsToStackNoDiag(indexes, stack);
+            }
+        }
 }
 
-    private void addNeighborsToStack(Integer[] indexes, LinkedList<Integer[]> stack) {
+    private void addNeighborsToStackDiag(Integer[] indexes, LinkedList<Integer[]> stack) {
         int i = indexes[0];
         int j = indexes[1];
-        if(i > 0 && board[i-1][j].getStat() == cellStatus.BLACK){
+        for(int k = Math.max(0,i-1); k < Math.min(rows, i + 2); k++){
+            for(int l = Math.max(0, j - 1); l < Math.min(cols, j + 2); l++){
+                if(board[k][l].getStat() == CellStatus.BLACK && (i != k || j != l)){
+                    stack.add(new Integer[]{k, l});
+                }
+            }
+        }
+    }
+
+    private void addNeighborsToStackNoDiag(Integer[] indexes, LinkedList<Integer[]> stack) {
+        int i = indexes[0];
+        int j = indexes[1];
+        if(i > 0 && board[i-1][j].getStat() == CellStatus.BLACK){
             stack.add(new Integer[]{i-1, j});
         }
-        if(i < rows - 1 && board[i+1][j].getStat() == cellStatus.BLACK){
+        if(i < rows - 1 && board[i+1][j].getStat() == CellStatus.BLACK){
             stack.add(new Integer[]{i+1, j});
         }
-        if(j > 0 && board[i][j-1].getStat() == cellStatus.BLACK){
+        if(j > 0 && board[i][j-1].getStat() == CellStatus.BLACK){
             stack.add(new Integer[]{i, j-1});
         }
-        if(j < cols - 1 && board[i][j+1].getStat() == cellStatus.BLACK){
+        if(j < cols - 1 && board[i][j+1].getStat() == CellStatus.BLACK){
             stack.add(new Integer[]{i, j+1});
         }
     }
@@ -162,14 +183,15 @@ class Board {
                 random = rand.nextDouble();
                 if(random < FREQUENCY){
                     cell.setBackgroundColor(Color.BLACK);
-                    cell.setStat(cellStatus.BLACK);
+                    cell.setStat(CellStatus.BLACK);
                     clean = false;
                 } else{
                     cell.setBackgroundColor(Color.WHITE);
-                    cell.setStat(cellStatus.WHITE);
+                    cell.setStat(CellStatus.WHITE);
                 }
             }
         }
+        numOfIslands = 0;
         solved = false;
         Toast.makeText(activity, "Map is randomized!", Toast.LENGTH_SHORT).show();
 
@@ -189,5 +211,11 @@ class Board {
 
     public boolean isSolved() {
         return solved;
+    }
+
+    public int getNumOfIslands() { return numOfIslands;}
+
+    public boolean isClean() {
+        return clean;
     }
 }

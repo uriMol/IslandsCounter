@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 
 class Cell extends View implements View.OnClickListener {
     private int row, col, islandID;
-    private cellStatus stat = cellStatus.WHITE;
+    private CellStatus stat = CellStatus.WHITE;
     private Board board;
 
 
@@ -45,19 +45,19 @@ class Cell extends View implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        if(stat == cellStatus.WHITE){
-            stat = cellStatus.BLACK;
+        if(stat == CellStatus.WHITE){
+            stat = CellStatus.BLACK;
             this.setBackgroundColor(Color.BLACK);
             board.unClean();
         }
     }
 
     public void cleanCell() {
-        stat = cellStatus.WHITE;
+        stat = CellStatus.WHITE;
         this.setBackgroundColor(Color.WHITE);
     }
 
-    public cellStatus getStat() {
+    public CellStatus getStat() {
         return stat;
     }
 
@@ -75,7 +75,7 @@ class Cell extends View implements View.OnClickListener {
      */
     public void setIslandID(int ID) {
         islandID = ID;
-        stat = cellStatus.COLORED;
+        stat = CellStatus.COLORED;
     }
 
     /*
@@ -88,7 +88,7 @@ class Cell extends View implements View.OnClickListener {
 
     }
 
-    public void setStat(cellStatus status) {
+    public void setStat(CellStatus status) {
         stat = status;
     }
 }
