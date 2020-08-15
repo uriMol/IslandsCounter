@@ -12,32 +12,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_margin="2dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="No. of Islands: -"
             android:id="@+id/tvNumOfIslands"/>
 
         <Button
             android:id="@+id/btRandom"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="RANDOM"
             android:tag="random"/>
 
         <Button
             android:id="@+id/btClean"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="CLEAN"
             android:tag="clean"/>
 
         <Button
             android:id="@+id/btSolve"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="SOLVE"
             android:tag="solve"/>
 

@@ -87,11 +87,12 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
      */
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        for(Cell[] row:board.getBoard()){
-            for(Cell cell:row){
+        for(Board.Cell[] row:board.getBoard()){
+            for(Board.Cell cell:row){
                 savedInstanceState.putBoolean(Integer.toString(cell.getId()), cell.getStat()!=CellStatus.WHITE);
             }
         }
+        savedInstanceState.putInt("numOfIslands", board.getNumOfIslands());
         savedInstanceState.putBoolean("solved", board.isSolved());
     }
 
@@ -102,8 +103,8 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
      */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        for(Cell[] row:board.getBoard()){
-            for(Cell cell:row){
+        for(Board.Cell[] row:board.getBoard()){
+            for(Board.Cell cell:row){
                 if(savedInstanceState.getBoolean(Integer.toString(cell.getId()))){
                     cell.setStat(CellStatus.BLACK);
                     cell.setBackgroundColor(Color.BLACK);
@@ -114,6 +115,9 @@ public class BoardActivity extends AppCompatActivity implements View.OnClickList
         if(savedInstanceState.getBoolean("solved")){
             board.solve();
         }
+        board.setNumOfIslands(savedInstanceState.getInt("numOfIslands"));
+        refreshNumOfIslands();
+
     }
 
 
