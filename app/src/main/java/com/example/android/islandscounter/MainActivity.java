@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int cols, rows;
 
     //MAX_DIM defines max dimension for the board, should be 1000
-    final int MAX_DIM = 300;
+    final int MAX_DIM = 250;
 
 
 
