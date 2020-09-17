@@ -6,4 +6,4 @@ when the board is filled with islands, the app will efficiently paint the island
 
 # IslandsPainter and the problem with big dimension matrixes
 When we try to handle matrixes bigger then 200x200, the memory can't handle it, and this is why I made the Islands painter.
-In my git you can also find the IslandsPainter app that is very similar. The main difference is that is uses a recycler view and an adapter so the screen doesn't have to hold the entire matrix and it can pull cells from the memory when scrolling.
+In my git you can also find the IslandsPainter app that is very similar. The main difference is that it uses a recycler view and an adapter so the screen doesn't have to hold the entire matrix and it can pull cells from the memory when scrolling.
