@@ -1,5 +1,5 @@
 # IslandsCounter
-This is one of my first apps, I did it mostly to try and build an app with a pretty and clean OOP project. The main thing here is the paint button that paints all the islands in O(n) time.
+This is one of my first apps, I did it mostly to try and build an app with a pretty and clean OOP project and to learn to use git. The main thing here is the paint button that paints all the islands in O(n) time.
 
 Islands Counter is an app that given a dimension - creates a board in that dimension. It then lets you choose if you want to fill it manually or let the random algorithm do it for you. 
 when the board is filled with islands, the app will efficiently paint the islands in different colors.
